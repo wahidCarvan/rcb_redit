@@ -29,10 +29,26 @@ app.get('/', function(req,res){
   // rendering the handlebars page
 res.render('index');
 });
-//second router
+//form page gets the post
 app.get('/new-post',function(req,res){
   //name of file
   res.render('new');
+});
+// posts the post
+app.post('/new-post',function(req,res){
+  var body =req.body;
+  Posts.create({
+    title:body.title,
+    url:body.url,
+    image:body.image,
+    score:0,
+    description:body.description
+  }).then(function(data){
+    console.log(data);
+  })
+  // create the post in the database
+
+  //redirect to the posts:id page
 });
 //third route
 app.get('/posts/:id', function(req,res){

@@ -2,6 +2,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var handlebars =require('express-handlebars');
+var Posts = require('./models')['Posts'];
+Posts.sync();
 // creates the express server
 var app = express();
 // adding our public folder
@@ -14,8 +16,16 @@ app.engine('handlebars',handlebars({
 defaultLayout:'main'
 }));
 app.set('view engine', 'handlebars');
-// we need 3 routes the home page submit page and the actual post page
+//home page
 app.get('/', function(req,res){
+  // calling our post variable
+  Posts.findAll({}).then(function(result){
+    console.log('result')
+    return res.render('index',{
+      posts:result
+    });
+
+  });
   // rendering the handlebars page
 res.render('index');
 });
